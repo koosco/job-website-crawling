@@ -1,6 +1,6 @@
-from .. import Strategy
+from ..Strategy import Strategy
 
 
 class JobkoreaStrategy(Strategy):
-    def parse(self, source_page: str):
-        pass
+    def execute(self, source_page: str):
+        print('jobkorea')

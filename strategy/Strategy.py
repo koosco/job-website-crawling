@@ -1,8 +1,7 @@
-from abc import ABCMeta, abstractmethod
-from bs4 import BeautifulSoup
+from abc import ABC, abstractmethod
 
 
-class Strategy(ABCMeta):
+class Strategy(ABC):
     @abstractmethod
     def execute(self, source_page: str):
         pass
