@@ -28,5 +28,11 @@ class WebDriver:
     def get_page_source(self):
         return self.page_source
 
+    def save_page_source(self, path: str):
+        with open(path, 'w') as file:
+            for line in self.page_source:
+                file.write(line)
+        print('page source saved')
+
     def close_url(self):
         self.driver.close()

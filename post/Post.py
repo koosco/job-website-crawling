@@ -1,13 +1,14 @@
-class Announcement:
+class Post:
     def __init__(self):
-        self.__idx = None
-        self.__company = None
-        self.__company_size = None
-        self.__post_name = None
-        self.__career = None
+        self.__idx = None  # 인덱스
+        self.__company = None  # 회사명
+        self.__company_size = None  # 회사규모
+        self.__post_name = None  # 공고명
+        self.__career = None  # 직무
         self.__education = None
         self.__location = None
         self.__work_type = None
+        self.__deadline = None
         self.__url = None
 
     @property
@@ -75,9 +76,20 @@ class Announcement:
         self.__work_type = work_type
 
     @property
+    def deadline(self):
+        return self.__deadline
+
+    @deadline.setter
+    def deadline(self, deadline):
+        self.__deadline = deadline
+
+    @property
     def url(self):
         return self.__url
 
     @url.setter
     def url(self, url):
         self.__url = url
+
+    def __str__(self):
+        return self.__company

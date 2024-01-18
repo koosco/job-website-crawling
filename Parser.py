@@ -3,6 +3,7 @@ from strategy.jobkorea.JobkoreaStrategy import JobkoreaStrategy
 from strategy.saramin.SaraminStrategy import SaraminStrategy
 from strategy.wanted.WantedStrategy import WantedStrategy
 from strategy.worknet.WorknetStrategy import WorknetStrategy
+from post import Post
 
 
 class Parser:
@@ -18,5 +19,6 @@ class Parser:
             self.strategy_idx = 0
         self.strategy = self.strategies[self.strategy_idx]
 
-    def parse(self, source_page: str) -> None:
-        self.strategy.execute(source_page)
+    def parse(self, source_page: str) -> Post:
+        return self.strategy.execute(source_page)
+
