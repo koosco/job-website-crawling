@@ -1,6 +1,4 @@
 from bs4 import BeautifulSoup
-
-from Post import Post
 from Strategy import Strategy
 from PostBuilder import PostBuilder
 
