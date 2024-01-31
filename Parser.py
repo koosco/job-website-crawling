@@ -20,5 +20,5 @@ class Parser:
             self.strategy_idx = 0
         self.strategy = self.strategies[self.strategy_idx]
 
-    def parse(self) -> Post:
-        return self.strategy.execute(source_page)
+    # def parse(self) -> Post:
+    #     return self.strategy.execute()

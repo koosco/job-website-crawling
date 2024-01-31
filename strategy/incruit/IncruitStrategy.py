@@ -1,16 +1,40 @@
 from bs4 import BeautifulSoup
 from Strategy import Strategy
+from WebDriver import WebDriver
 from domain.post.PostBuilder import PostBuilder
+from collections import defaultdict
+import json
 
 
 class IncruitStrategy(Strategy):
     def __init__(self):
         self.posts = []
+        self.base_url = None
+        self.url = None
+        self.params = defaultdict(str)
+        self.webdriver = WebDriver()
+        self.source_page = None
 
-    def execute(self, source_page: str):
+        with open("incruit_config.json") as config_file:
+            configs = json.load(config_file)
+            self.base_url = configs['base_url']
+            for key, value in configs.items():
+                if not key.startswith('url') and not key.endswith('url'):
+                    self.params[key] = value
+            self.set_param()
+        self.set_source_page()
+        print(self.url)
+
+    def set_param(self):
+        param_list = []
+        for key, value in self.params.items():
+            param_list.append(key + '=' + self.params[key])
+        self.url = self.base_url + '&'.join(param_list)
+
+    def execute(self, **kwargs):
         builder = PostBuilder()
         tags = []
-        soup = BeautifulSoup(source_page, 'html.parser')
+        soup = BeautifulSoup(self.source_page, 'html.parser')
         content_list = soup.find('div', {'class': 'cBbslist_contenst'})
         contents = content_list.find_all('ul', {'class': 'c_row'})
 
@@ -52,14 +76,11 @@ class IncruitStrategy(Strategy):
             self.posts.append(post_item)
         return self.posts
 
+    def find_next_page(self):
+        self.params['page'] = str(int(self.params['page']) + 1)
+        self.set_param()
+        self.set_source_page()
 
-if __name__ == '__main__':
-    from repository.post.MemoryPostRepository import MemoryPostRepository
-    from ParamPrinter import ParamPrinter
-    with open('/Users/koo/Desktop/git/job-webset-crawling/src/resources/incruit/job_collect.html') as file:
-        source = file.read()
-    strategy = IncruitStrategy()
-    items = strategy.execute(source)
-    # for item in items:
-    #     ParamPrinter.print_class_params(item)
-    MemoryPostRepository.save_posts(items)
+    def set_source_page(self):
+        self.webdriver.open_url(self.url)
+        self.source_page = self.webdriver.get_page_source()

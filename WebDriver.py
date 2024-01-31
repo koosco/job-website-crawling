@@ -8,7 +8,8 @@ class WebDriver:
     페이지만 크롤링함
     파싱은 하지 않음
     """
-    def __init__(self, headless, no_sandbox):
+
+    def __init__(self, headless: bool = True, no_sandbox: bool = True):
         self.page_source = None
         chrome_options = Options()
         if headless:
