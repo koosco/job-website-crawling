@@ -1,9 +1,14 @@
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 
 
 class WebDriver:
-    def __init__(self, headless=True, no_sandbox=True):
+    """
+    페이지만 크롤링함
+    파싱은 하지 않음
+    """
+    def __init__(self, headless, no_sandbox):
         self.page_source = None
         chrome_options = Options()
         if headless:
@@ -35,4 +40,19 @@ class WebDriver:
         print('page source saved')
 
     def close_url(self):
-        self.driver.close()
+        self.driver.quit()
+
+    def get_elements_by_xpath(self, xpath: str):
+        return self.driver.find_elements(By.XPATH, xpath)
+
+    def get_elements_by_class(self, _class: str):
+        return self.driver.find_elements(By.CLASS_NAME, _class)
+
+    def get_element_by_class(self, _class: str):
+        return self.driver.find_element(By.CLASS_NAME, _class)
+
+    def get_elements_by_name(self, _class: str):
+        return self.driver.find_elements(By.NAME, _class)
+
+    def get_element_by_name(self, _class: str):
+        return self.driver.find_element(By.NAME, _class)

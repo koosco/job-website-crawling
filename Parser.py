@@ -1,17 +1,18 @@
 from strategy.incruit.IncruitStrategy import IncruitStrategy
-from strategy.jobkorea.JobkoreaStrategy import JobkoreaStrategy
-from strategy.saramin.SaraminStrategy import SaraminStrategy
-from strategy.wanted.WantedStrategy import WantedStrategy
-from strategy.worknet.WorknetStrategy import WorknetStrategy
+from WebDriver import WebDriver
 from post import Post
 
 
 class Parser:
-    def __init__(self):
-        self.strategies = [IncruitStrategy(), JobkoreaStrategy(), SaraminStrategy(),
-                           WantedStrategy(), WorknetStrategy()]
-        self.strategy_idx = 0
+    """
+    페이지 유형에 따라 페이지를 파싱함
+    """
+
+    def __init__(self, display: bool = False):
+        self.strategies = [IncruitStrategy()]
+        self.strategy_idx = 1
         self.strategy = self.strategies[self.strategy_idx]
+        webdriver = WebDriver(display, display)
 
     def get_next_strategy(self) -> None:
         self.strategy_idx += 1
@@ -19,6 +20,5 @@ class Parser:
             self.strategy_idx = 0
         self.strategy = self.strategies[self.strategy_idx]
 
-    def parse(self, source_page: str) -> Post:
+    def parse(self) -> Post:
         return self.strategy.execute(source_page)
-

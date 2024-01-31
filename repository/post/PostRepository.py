@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from post.Post import Post
+from domain.post.Post import Post
 
 
 class PostRepository(ABC):
