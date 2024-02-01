@@ -11,6 +11,19 @@ class IncruitPreprocessor:
     def __init__(self, post: Post):
         self.posts = deque()
         self.posts.append(post)
+        self.res = []
+
+    def process(self):
+        self.career()
+        self.education()
+        self.deadline()
+        self.created_at()
+        for post in self.posts:
+            ParamPrinter.print_class_params(post)
+        items = []
+        for post in self.posts:
+            items.append(post)
+        return items
 
     def career(self):
         for i in range(len(self.posts)):
@@ -19,10 +32,9 @@ class IncruitPreprocessor:
             post.career = post.career.replace('이상', '')
             post.career = post.career.replace('↑', '')
             careers = post.career.split('/')
-            new_post = deepcopy(post)
             for career in careers:
-                new_post.career = career
-                self.posts.append(new_post)  # 신입/경력 -> ['신입', '경력']
+                post.career = career
+                self.posts.append(deepcopy(post))  # 신입/경력 -> ['신입', '경력']
 
     def education(self):
         for i in range(len(self.posts)):
@@ -44,31 +56,26 @@ class IncruitPreprocessor:
                 current_year = datetime.now().year
                 date = f'{current_year}-{post.deadline}'
                 formatted_date = datetime.strptime(date, '%Y-%m-%d')
-                post.deadline = formatted_date.date()
+                post.deadline = formatted_date.date().strftime("%Y-%m-%d")
+            self.posts.append(post)
 
     def created_at(self):
         for i in range(len(self.posts)):
             post = self.posts.popleft()
-            create_time = datetime.now().date()
+            create_date = datetime.now().date()
             if '시간' in post.created_at:
                 # n시간 전 공고
-                post.created_at = create_time
+                """
+                n시간 전이 하루 전이라면 날짜를 변경해주어야 함
+                문자열 -> 날짜
+                """
+                post.created_at = create_date
             elif '일전' in post.created_at:
                 # n일 전 공고
                 posted_date = re.findall(r'\d+', post.created_at)
-                print(type(create_time))
-                post.created_at = create_time - timedelta(days=int(posted_date[0]))
+                print(type(create_date))
+                post.created_at = create_date - timedelta(days=int(posted_date[0]))
             self.posts.append(post)
-
-    def process(self):
-        self.career()
-        self.education()
-        self.deadline()
-        self.created_at()
-        items = []
-        for post in self.posts:
-            items.append(post)
-        return items
 
 
 if __name__ == '__main__':
@@ -85,6 +92,5 @@ if __name__ == '__main__':
             deadline("~02.08 (목)").
             url("https://job.incruit.com/jobdb_info/jobpost.asp?job=2401290004100").
             created_at("(3일전 등록)").build())
-    ParamPrinter.print_class_params(item)
     preprocessor = IncruitPreprocessor(item)
     preprocessor.process()

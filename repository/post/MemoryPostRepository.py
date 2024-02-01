@@ -11,8 +11,6 @@ class MemoryPostRepository(PostRepository):
 
     @staticmethod
     def save(data: Post, **kwargs):
-        from ParamPrinter import ParamPrinter
-        # ParamPrinter.print_class_params(data)
         with open(MemoryPostRepository.csv_path, 'a') as file:
             writer = csv.writer(file)
             writer.writerow([data.company_name, data.post_name,

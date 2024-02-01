@@ -3,7 +3,7 @@ from WebDriver import WebDriver
 from post import Post
 
 
-class Parser:
+class StrategyManager:
     """
     페이지 유형에 따라 페이지를 파싱함
     """
