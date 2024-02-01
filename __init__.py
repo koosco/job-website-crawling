@@ -1,4 +1,4 @@
-from Parser import Parser
+from StrategyManager import Parser
 from WebDriver import WebDriver
 
 if __name__ == '__main__':

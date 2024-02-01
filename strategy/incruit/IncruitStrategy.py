@@ -63,15 +63,7 @@ class IncruitStrategy(Strategy):
             deadline = dates[0].text
             created_at = dates[1].text
 
-            post_item = (builder.
-                         company_name(company_name).
-                         post_name(post_name).
-                         career(career).
-                         education(education).
-                         location(location).
-                         job_type(job_type).
-                         deadline(deadline).
-                         created_at(created_at).
+            post_item = (builder..
                          url(url).build())
             self.posts.append(post_item)
         return self.posts
