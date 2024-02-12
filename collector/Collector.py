@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
 
-class Strategy(ABC):
+class Collector(ABC):
     @abstractmethod
-    def execute(self, source_page: str):
+    def find_posts(self, source_page: str):
         pass
 
     @abstractmethod

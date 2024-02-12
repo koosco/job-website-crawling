@@ -1,6 +1,4 @@
-from strategy.incruit.IncruitStrategy import IncruitStrategy
-from WebDriver import WebDriver
-from post import Post
+from incruit.IncruitCollector import IncruitCollector
 
 
 class StrategyManager:
@@ -8,11 +6,10 @@ class StrategyManager:
     페이지 유형에 따라 페이지를 파싱함
     """
 
-    def __init__(self, display: bool = False):
-        self.strategies = [IncruitStrategy()]
-        self.strategy_idx = 1
+    def __init__(self):
+        self.strategies = [IncruitCollector()]
+        self.strategy_idx = 0
         self.strategy = self.strategies[self.strategy_idx]
-        webdriver = WebDriver(display, display)
 
     def get_next_strategy(self) -> None:
         self.strategy_idx += 1
@@ -20,5 +17,9 @@ class StrategyManager:
             self.strategy_idx = 0
         self.strategy = self.strategies[self.strategy_idx]
 
-    # def parse(self) -> Post:
-    #     return self.strategy.execute()
+    def execute(self):
+        """
+        posts 반환
+        :return:
+        """
+        return self.strategy.find_posts()

@@ -161,3 +161,5 @@ cython_debug/
 *.idea
 __pycache__
 db_meta.json
+flask_app/pybo.db
+migrations/versions/

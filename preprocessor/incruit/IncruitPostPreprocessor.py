@@ -7,7 +7,7 @@ import re
 from ParamPrinter import ParamPrinter
 
 
-class IncruitPreprocessor:
+class IncruitPostPreprocessor:
     def __init__(self, post: Post):
         self.posts = deque()
         self.posts.append(post)
@@ -92,5 +92,5 @@ if __name__ == '__main__':
             deadline("~02.08 (목)").
             url("https://job.incruit.com/jobdb_info/jobpost.asp?job=2401290004100").
             created_at("(3일전 등록)").build())
-    preprocessor = IncruitPreprocessor(item)
+    preprocessor = IncruitPostPreprocessor(item)
     preprocessor.process()

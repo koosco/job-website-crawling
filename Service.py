@@ -1,10 +1,12 @@
 from scheduler.Scheduler import Scheduler
-from WebDriver import WebDriver
+from StrategyManager import StrategyManager
 
 
 class Service:
     def __init__(self):
         self.scheduler = Scheduler()
-        self.webdriver = WebDriver()
+        self.strategy_manager = StrategyManager()
 
-    def
+    def start(self):
+        self.scheduler.add_job(10, self.strategy_manager.execute())
+        # self.scheduler.add_job(10, self.strategy_manager.get_next_strategy())
